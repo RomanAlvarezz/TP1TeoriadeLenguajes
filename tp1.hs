@@ -13,20 +13,15 @@ sgetLine' contador = do
     x <- getChar
     if x == '\n' 
         then do 
+            hSetEcho stdin True
+            putStr ("Contador: " ++ show contador ++ "\n")                                   
+            hSetEcho stdin False
             return []
         else if x == 'R' || x == 'P' || x == 'S'
             then do 
-                hSetEcho stdin True
-                putStr ("\rContador: " ++ show (contador + 1) ++ "\n")  
-                hFlush stdout                                  
-                hSetEcho stdin False
                 xs <- sgetLine' (contador + 1)                 
                 return (x:xs)
             else do 
-                hSetEcho stdin True
-                putStr ("\rContador: " ++ show contador ++ "\n")       
-                hFlush stdout                                  
-                hSetEcho stdin False
                 xs <- sgetLine' contador                       
                 return xs
 
