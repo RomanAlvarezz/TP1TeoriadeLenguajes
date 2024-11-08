@@ -55,11 +55,15 @@ secuenciarPartidas cp c1 c2 = do (puntos1, puntos2) <- ingresarSecuencia
 ingresoCantPartidas = do
     putStrLn "Ingrese la cantidad de partidas a jugar"
     cantPartidas <- getLine
-    if all isDigit cantPartidas && not (null cantPartidas)  -- Verifica si toda la cadena son dígitos
-        then return (read cantPartidas :: Int)              -- Convierte la cadena en un número entero
+--    if cantPartidas /= [] && all isDigit cantPartidas   
+    if cantPartidas /= [] && auxDigit cantPartidas     
+        then return (read cantPartidas :: Int)              
         else do
             putStrLn "Por favor ingrese un número válido."
-            ingresoCantPartidas                             -- Llama de nuevo si la entrada no es válida
+            ingresoCantPartidas                            
+
+auxDigit [] = True
+auxDigit (x:xs) = if isDigit x then auxDigit xs else False
 
 juego = do cantPartidas <- ingresoCantPartidas
            secuenciarPartidas cantPartidas 0 0
