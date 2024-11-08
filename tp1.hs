@@ -32,7 +32,8 @@ ingresarSecuencia =      do putStrLn "Jugador 1 ingrese la secuencia"
                             --putStrLn secJugador1
                             --putStrLn secJugador2
                             let secuenciaZip = zip secJugador1 secJugador2
-                            --print secuenciaZip  
+                            putStrLn("Jugadas realizadas:")
+                            print secuenciaZip  
                             return (jugarPartida secuenciaZip  0 0)
 
 
@@ -43,27 +44,33 @@ jugarPartida ((x, y):xs) puntos1 puntos2
               | x == 'R' && y == 'S' || x == 'P' && y == 'R' || x == 'S' && y == 'P' = jugarPartida xs (puntos1+1) puntos2
               | x == 'S' && y == 'R' || x == 'R' && y == 'P' || x == 'P' && y == 'S' = jugarPartida xs puntos1 (puntos2+1)
 
-secuenciarPartidas 0  c1 c2 
-                        |(c1 > c2)  = putStrLn ("Gano el jugador 1 \n Puntos Jugador 1: " ++ show c1 ++ "\n Puntos Jugador 2: " ++ show c2)
-                        |(c1 < c2)  = putStrLn ("Gano el jugador 2 \n Puntos Jugador 1: " ++ show c1 ++ "\n Puntos Jugador 2: " ++ show c2)
-                        |(c1 == c2) = putStrLn ("Empate | Puntos Jugador 1: " ++ show c1 ++ " Puntos Jugador 2: " ++ show c2)
-secuenciarPartidas cp c1 c2 = do (puntos1, puntos2) <- ingresarSecuencia
-                                 putStrLn ("Puntos Jugador 1: " ++ show puntos1)
-                                 putStrLn ("Puntos Jugador 2: " ++ show puntos2)
-                                 secuenciarPartidas (cp-1) (c1 + puntos1) (c2 + puntos2)
+secuenciarPartidas 0  c1 c2 pActual 
+                        |(c1 > c2)  = putStrLn ("Juego finalizado\nGano el jugador 1 \nPuntos totales Jugador 1: " ++ show c1 ++ "\nPuntos totales Jugador 2: " ++ show c2)
+                        |(c1 < c2)  = putStrLn ("Juego finalizado\nGano el jugador 2 \nPuntos totales Jugador 1: " ++ show c1 ++ "\nPuntos totales Jugador 2: " ++ show c2)
+                        |(c1 == c2) = putStrLn ("Juego finalizado\nEmpate \nPuntos totales Jugador 1: " ++ show c1 ++ "\nPuntos totales Jugador 2: " ++ show c2)
+secuenciarPartidas cp c1 c2 pActual = do 
+                                        (puntos1, puntos2) <- ingresarSecuencia
+                                        putStrLn ("Resultado de la partida " ++ show pActual ++ ":")
+                                        putStrLn ("Puntos Jugador 1: " ++ show puntos1)
+                                        putStrLn ("Puntos Jugador 2: " ++ show puntos2)
+                                        putStrLn ("-------------------------------------------")
+                                        secuenciarPartidas (cp-1) (c1 + puntos1) (c2 + puntos2) (pActual+1)
 
 ingresoCantPartidas = do
     putStrLn "Ingrese la cantidad de partidas a jugar"
     cantPartidas <- getLine
-    if all isDigit cantPartidas && not (null cantPartidas)  -- Verifica si toda la cadena son dígitos
-        then return (read cantPartidas :: Int)              -- Convierte la cadena en un número entero
+--    if cantPartidas /= [] && all isDigit cantPartidas   
+    if cantPartidas /= [] && auxDigit cantPartidas     
+        then return (read cantPartidas :: Int)              
         else do
             putStrLn "Por favor ingrese un número válido."
-            ingresoCantPartidas                             -- Llama de nuevo si la entrada no es válida
+            ingresoCantPartidas                            
+
+auxDigit [] = True
+auxDigit (x:xs) = if isDigit x then auxDigit xs else False
 
 juego = do cantPartidas <- ingresoCantPartidas
-           secuenciarPartidas cantPartidas 0 0
+           secuenciarPartidas cantPartidas 0 0 1
 
 main = juego
-
 
