@@ -32,7 +32,7 @@ ingresarSecuencia =      do putStrLn "Jugador 1 ingrese la secuencia"
                             --putStrLn secJugador1
                             --putStrLn secJugador2
                             let secuenciaZip = zip secJugador1 secJugador2
-                            --print secuenciaZip  
+                            print secuenciaZip  
                             return (jugarPartida secuenciaZip  0 0)
 
 
