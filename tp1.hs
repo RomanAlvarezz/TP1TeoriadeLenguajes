@@ -61,13 +61,14 @@ ingresoCantPartidas = do
     cantPartidas <- getLine
 --    if cantPartidas /= [] && all isDigit cantPartidas   
     if cantPartidas /= [] && auxDigit cantPartidas     
-        then return (read cantPartidas :: Int)              
+        then return (read cantPartidas :: Int)                          
         else do
             putStrLn "Por favor ingrese un número válido."
             ingresoCantPartidas                            
 
 auxDigit [] = True
 auxDigit (x:xs) = if isDigit x then auxDigit xs else False
+
 
 juego = do cantPartidas <- ingresoCantPartidas
            secuenciarPartidas cantPartidas 0 0 1
