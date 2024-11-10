@@ -1,6 +1,4 @@
 import System.IO
-import Data.Char (intToDigit)
-import Data.Char (digitToInt)
 import Data.Char (isDigit)
 
 sgetLine = do hSetEcho stdin False
