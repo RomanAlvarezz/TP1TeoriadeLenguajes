@@ -58,16 +58,13 @@ ingresoCantPartidas = do putStrLn "Ingrese la cantidad de partidas a jugar"
 
 ingresoJugada numJugador= do putStrLn ("Jugador " ++ show numJugador ++ " ingrese la secuencia")
                              secJugador <- sgetLine
-                             if secJugador /= [] && auxSec secJugador
+                             if secJugador /= [] 
                                 then return secJugador
                                 else do putStrLn "Por favor ingrese una secuencia válida."
                                         ingresoJugada numJugador
 
 auxDigit [] = True
 auxDigit (x:xs) = if isDigit x then auxDigit xs else False
-
-auxSec [] = False
-auxSec (x:xs) = if x == 'R' || x == 'S' || x == 'P' then True else auxSec xs
 
 
 juego = do cantPartidas <- ingresoCantPartidas
